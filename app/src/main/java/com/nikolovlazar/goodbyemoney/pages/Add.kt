@@ -6,8 +6,10 @@ import androidx.compose.foundation.text.BasicTextField
 import androidx.compose.foundation.text.KeyboardOptions
 import androidx.compose.material3.*
 import androidx.compose.runtime.Composable
+import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.draw.clip
+import androidx.compose.ui.graphics.Color
 import androidx.compose.ui.text.TextStyle
 import androidx.compose.ui.text.input.KeyboardType
 import androidx.compose.ui.text.input.TextFieldValue
@@ -44,7 +46,7 @@ fun Add(navController: NavController) {
               onValueChange = {},
               modifier = Modifier.fillMaxWidth(),
               textStyle = TextStyle(
-                textAlign = TextAlign.End
+                textAlign = TextAlign.Right,
               ),
               keyboardOptions = KeyboardOptions(
                 keyboardType = KeyboardType.Number,
@@ -66,14 +68,10 @@ fun Add(navController: NavController) {
             UnstyledTextField(
               value = "",
               onValueChange = {},
-              placeholder = {Text("Leave some notes")},
-              modifier = Modifier.fillMaxWidth().height(44.dp),
+              modifier = Modifier.fillMaxWidth(),
               textStyle = TextStyle(
-                textAlign = TextAlign.End,
+                textAlign = TextAlign.Right,
               ),
-              keyboardOptions = KeyboardOptions(
-                keyboardType = KeyboardType.Number,
-              )
             )
           }
           Divider(modifier = Modifier
