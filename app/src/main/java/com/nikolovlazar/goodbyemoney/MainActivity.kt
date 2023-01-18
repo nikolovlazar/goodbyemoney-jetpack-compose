@@ -18,6 +18,7 @@ import androidx.navigation.compose.rememberNavController
 import com.nikolovlazar.goodbyemoney.pages.Expenses
 import com.nikolovlazar.goodbyemoney.pages.Settings
 import com.nikolovlazar.goodbyemoney.ui.theme.GoodbyeMoneyTheme
+import com.nikolovlazar.goodbyemoney.ui.theme.TopAppBarBackground
 
 class MainActivity : ComponentActivity() {
   @OptIn(ExperimentalMaterial3Api::class)
@@ -29,7 +30,7 @@ class MainActivity : ComponentActivity() {
         val backStackEntry = navController.currentBackStackEntryAsState()
         Scaffold(
           bottomBar = {
-            NavigationBar {
+            NavigationBar(containerColor = TopAppBarBackground) {
               NavigationBarItem(
                 selected = backStackEntry.value?.destination?.route == "expenses",
                 onClick = { navController.navigate("expenses") },
@@ -70,7 +71,7 @@ class MainActivity : ComponentActivity() {
                 }
               )
               NavigationBarItem(
-                selected = backStackEntry.value?.destination?.route == "settings",
+                selected = backStackEntry.value?.destination?.route?.startsWith("settings") ?: false,
                 onClick = { navController.navigate("settings") },
                 label = {
                   Text("Settings")

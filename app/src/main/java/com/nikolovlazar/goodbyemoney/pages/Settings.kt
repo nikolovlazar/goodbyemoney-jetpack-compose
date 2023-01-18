@@ -10,8 +10,10 @@ import androidx.compose.ui.Modifier
 import androidx.compose.ui.draw.clip
 import androidx.compose.ui.unit.dp
 import androidx.navigation.NavController
+import androidx.navigation.NavOptions
 import com.nikolovlazar.goodbyemoney.components.TableRow
 import com.nikolovlazar.goodbyemoney.ui.theme.BackgroundElevated
+import com.nikolovlazar.goodbyemoney.ui.theme.DividerColor
 import com.nikolovlazar.goodbyemoney.ui.theme.Shapes
 import com.nikolovlazar.goodbyemoney.ui.theme.TopAppBarBackground
 
@@ -28,12 +30,18 @@ fun Settings(navController: NavController) {
       Column(modifier = Modifier.padding(innerPadding)) {
         Column(modifier = Modifier
           .padding(16.dp)
-          .clip(Shapes.medium)
+          .clip(Shapes.large)
           .background(BackgroundElevated)
           .fillMaxWidth()
         ) {
-          TableRow("Categories", hasArrow = true)
-          TableRow("Erase all data", isDestructive = true)
+          TableRow("Categories", hasArrow = true, onClick = {_ ->
+            run {
+              navController.navigate("settings/categories")
+            }
+          })
+          Divider(modifier = Modifier
+            .padding(start = 16.dp), thickness = 1.dp, color = DividerColor)
+          TableRow("Erase all data", isDestructive = true, onClick = {})
         }
       }
     }
