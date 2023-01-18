@@ -1,6 +1,7 @@
 package com.nikolovlazar.goodbyemoney.pages
 
 import androidx.compose.foundation.background
+import androidx.compose.foundation.clickable
 import androidx.compose.foundation.layout.Column
 import androidx.compose.foundation.layout.fillMaxWidth
 import androidx.compose.foundation.layout.padding
@@ -34,14 +35,12 @@ fun Settings(navController: NavController) {
           .background(BackgroundElevated)
           .fillMaxWidth()
         ) {
-          TableRow("Categories", hasArrow = true, onClick = {_ ->
-            run {
-              navController.navigate("settings/categories")
-            }
+          TableRow("Categories", hasArrow = true, modifier = Modifier.clickable {
+            navController.navigate("settings/categories")
           })
           Divider(modifier = Modifier
             .padding(start = 16.dp), thickness = 1.dp, color = DividerColor)
-          TableRow("Erase all data", isDestructive = true, onClick = {})
+          TableRow("Erase all data", isDestructive = true)
         }
       }
     }
