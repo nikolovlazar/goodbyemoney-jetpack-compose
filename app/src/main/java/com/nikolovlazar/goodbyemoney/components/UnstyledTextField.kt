@@ -27,6 +27,7 @@ fun UnstyledTextField(
   textStyle: TextStyle = LocalTextStyle.current,
   label: @Composable (() -> Unit)? = null,
   placeholder: @Composable (() -> Unit)? = null,
+  arrangement: Arrangement.Horizontal = Arrangement.Start,
   leadingIcon: @Composable (() -> Unit)? = null,
   trailingIcon: @Composable (() -> Unit)? = null,
   supportingText: @Composable (() -> Unit)? = null,
@@ -63,7 +64,11 @@ fun UnstyledTextField(
         value = value,
         visualTransformation = visualTransformation,
         innerTextField = innerTextField,
-        placeholder = placeholder,
+        placeholder = {
+          Row(modifier = Modifier.fillMaxWidth(), horizontalArrangement = arrangement) {
+            placeholder?.invoke()
+          }
+        },
         label = label,
         leadingIcon = leadingIcon,
         trailingIcon = trailingIcon,
