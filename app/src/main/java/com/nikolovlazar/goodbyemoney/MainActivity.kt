@@ -2,6 +2,7 @@ package com.nikolovlazar.goodbyemoney
 
 import android.content.res.Configuration
 import android.os.Bundle
+import android.view.WindowManager
 import androidx.activity.ComponentActivity
 import androidx.activity.compose.setContent
 import androidx.compose.foundation.layout.fillMaxSize
@@ -16,6 +17,7 @@ import androidx.navigation.compose.composable
 import androidx.navigation.compose.currentBackStackEntryAsState
 import androidx.navigation.compose.rememberNavController
 import com.nikolovlazar.goodbyemoney.pages.Add
+import com.nikolovlazar.goodbyemoney.pages.Categories
 import com.nikolovlazar.goodbyemoney.pages.Expenses
 import com.nikolovlazar.goodbyemoney.pages.Settings
 import com.nikolovlazar.goodbyemoney.ui.theme.GoodbyeMoneyTheme
@@ -25,6 +27,7 @@ class MainActivity : ComponentActivity() {
   @OptIn(ExperimentalMaterial3Api::class)
   override fun onCreate(savedInstanceState: Bundle?) {
     super.onCreate(savedInstanceState)
+    window.setSoftInputMode(WindowManager.LayoutParams.SOFT_INPUT_ADJUST_RESIZE);
     setContent {
       GoodbyeMoneyTheme {
         val navController = rememberNavController()
@@ -130,7 +133,7 @@ class MainActivity : ComponentActivity() {
                     .fillMaxSize()
                     .padding(innerPadding),
                 ) {
-                  Greeting("Categories")
+                  Categories(navController)
                 }
               }
             }

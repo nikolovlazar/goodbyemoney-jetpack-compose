@@ -1,6 +1,5 @@
 package com.nikolovlazar.goodbyemoney.components
 
-import androidx.compose.foundation.clickable
 import androidx.compose.foundation.layout.*
 import androidx.compose.material3.Icon
 import androidx.compose.material3.Text
@@ -15,7 +14,14 @@ import com.nikolovlazar.goodbyemoney.ui.theme.TextPrimary
 import com.nikolovlazar.goodbyemoney.ui.theme.Typography
 
 @Composable
-fun TableRow(label: String, modifier: Modifier = Modifier, hasArrow: Boolean = false, isDestructive: Boolean = false, content: (@Composable RowScope.() -> Unit)? = null) {
+fun TableRow(
+  modifier: Modifier = Modifier,
+  label: String? = null,
+  hasArrow: Boolean = false,
+  isDestructive: Boolean = false,
+  detailContent: (@Composable RowScope.() -> Unit)? = null,
+  content: (@Composable RowScope.() -> Unit)? = null
+) {
   val textColor = if (isDestructive) Destructive else TextPrimary
 
   Row(
@@ -23,7 +29,17 @@ fun TableRow(label: String, modifier: Modifier = Modifier, hasArrow: Boolean = f
     horizontalArrangement = Arrangement.SpaceBetween,
     verticalAlignment = Alignment.CenterVertically,
   ) {
-    Text(text = label, style = Typography.bodyMedium, color = textColor, modifier = Modifier.padding(horizontal = 16.dp, vertical = 10.dp))
+    if (label != null) {
+      Text(
+        text = label,
+        style = Typography.bodyMedium,
+        color = textColor,
+        modifier = Modifier.padding(horizontal = 16.dp, vertical = 10.dp)
+      )
+    }
+    if (content != null) {
+      content()
+    }
     if (hasArrow) {
       Icon(
         painterResource(id = R.drawable.chevron_right),
@@ -31,8 +47,8 @@ fun TableRow(label: String, modifier: Modifier = Modifier, hasArrow: Boolean = f
         modifier = Modifier.padding(horizontal = 16.dp, vertical = 10.dp)
       )
     }
-    if (content != null) {
-      content()
+    if (detailContent != null) {
+      detailContent()
     }
   }
 }

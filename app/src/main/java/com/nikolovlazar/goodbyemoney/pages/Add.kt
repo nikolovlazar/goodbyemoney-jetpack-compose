@@ -62,7 +62,7 @@ fun Add(navController: NavController, vm: AddViewModel = viewModel()) {
             .background(BackgroundElevated)
             .fillMaxWidth()
         ) {
-          TableRow("Amount") {
+          TableRow(label = "Amount", detailContent = {
             UnstyledTextField(
               value = state.amount,
               onValueChange = vm::setAmount,
@@ -77,12 +77,12 @@ fun Add(navController: NavController, vm: AddViewModel = viewModel()) {
                 keyboardType = KeyboardType.Number,
               )
             )
-          }
+          })
           Divider(
             modifier = Modifier
               .padding(start = 16.dp), thickness = 1.dp, color = DividerColor
           )
-          TableRow("Recurrence") {
+          TableRow(label = "Recurrence", detailContent = {
             var recurrenceMenuOpened by remember {
               mutableStateOf(false)
             }
@@ -105,7 +105,7 @@ fun Add(navController: NavController, vm: AddViewModel = viewModel()) {
                 }
               }
             }
-          }
+          })
           Divider(
             modifier = Modifier
               .padding(start = 16.dp), thickness = 1.dp, color = DividerColor
@@ -113,7 +113,7 @@ fun Add(navController: NavController, vm: AddViewModel = viewModel()) {
           var datePickerShowing by remember {
             mutableStateOf(false)
           }
-          TableRow("Date") {
+          TableRow(label = "Date", detailContent = {
             TextButton(onClick = { datePickerShowing = true }) {
               Text(state.date.toString())
             }
@@ -128,12 +128,12 @@ fun Add(navController: NavController, vm: AddViewModel = viewModel()) {
                 title = { Text("Select date", style = Typography.titleLarge) }
               )
             }
-          }
+          })
           Divider(
             modifier = Modifier
               .padding(start = 16.dp), thickness = 1.dp, color = DividerColor
           )
-          TableRow("Note") {
+          TableRow(label = "Note", detailContent = {
             UnstyledTextField(
               value = state.note,
               placeholder = { Text("Leave some notes") },
@@ -144,12 +144,12 @@ fun Add(navController: NavController, vm: AddViewModel = viewModel()) {
                 textAlign = TextAlign.Right,
               ),
             )
-          }
+          })
           Divider(
             modifier = Modifier
               .padding(start = 16.dp), thickness = 1.dp, color = DividerColor
           )
-          TableRow("Category") {
+          TableRow(label = "Category", detailContent = {
             var categoriesMenuOpened by remember {
               mutableStateOf(false)
             }
@@ -179,7 +179,7 @@ fun Add(navController: NavController, vm: AddViewModel = viewModel()) {
                 }
               }
             }
-          }
+          })
         }
         Button(
           onClick = vm::submitExpense,
