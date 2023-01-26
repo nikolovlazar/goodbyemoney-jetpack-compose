@@ -1,13 +1,13 @@
 package com.nikolovlazar.goodbyemoney.pages
 
 import android.content.res.Configuration.UI_MODE_NIGHT_YES
+import androidx.compose.animation.*
 import androidx.compose.foundation.BorderStroke
 import androidx.compose.foundation.ExperimentalFoundationApi
 import androidx.compose.foundation.background
 import androidx.compose.foundation.layout.*
 import androidx.compose.foundation.lazy.LazyColumn
 import androidx.compose.foundation.lazy.itemsIndexed
-import androidx.compose.foundation.relocation.bringIntoViewRequester
 import androidx.compose.foundation.shape.CircleShape
 import androidx.compose.foundation.shape.RoundedCornerShape
 import androidx.compose.material.icons.Icons
@@ -19,6 +19,7 @@ import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.draw.clip
 import androidx.compose.ui.graphics.Color
+import androidx.compose.ui.res.painterResource
 import androidx.compose.ui.tooling.preview.Preview
 import androidx.compose.ui.unit.dp
 import androidx.compose.ui.window.Dialog
@@ -26,19 +27,23 @@ import androidx.lifecycle.viewmodel.compose.viewModel
 import androidx.navigation.NavController
 import androidx.navigation.compose.rememberNavController
 import com.github.skydoves.colorpicker.compose.*
+import com.nikolovlazar.goodbyemoney.R
 import com.nikolovlazar.goodbyemoney.components.TableRow
 import com.nikolovlazar.goodbyemoney.components.UnstyledTextField
 import com.nikolovlazar.goodbyemoney.ui.theme.*
 import com.nikolovlazar.goodbyemoney.viewmodels.CategoriesViewModel
+import me.saket.swipe.SwipeAction
+import me.saket.swipe.SwipeableActionsBox
 
-@OptIn(ExperimentalMaterial3Api::class, ExperimentalFoundationApi::class)
+@OptIn(
+  ExperimentalMaterial3Api::class, ExperimentalFoundationApi::class,
+  ExperimentalAnimationApi::class
+)
 @Composable
 fun Categories(
   navController: NavController, vm: CategoriesViewModel = viewModel()
 ) {
   val uiState by vm.uiState.collectAsState()
-
-  val swipeableState = rememberDismissState()
 
   val colorPickerController = rememberColorPickerController()
 
@@ -68,17 +73,26 @@ fun Categories(
       verticalArrangement = Arrangement.SpaceBetween,
     ) {
       Column(modifier = Modifier.weight(1f)) {
-        LazyColumn(
-          modifier = Modifier
-            .padding(16.dp)
-            .clip(Shapes.large)
-            .background(BackgroundElevated)
-            .fillMaxWidth()
-        ) {
-          itemsIndexed(uiState.categories) { index, category ->
-            SwipeToDismiss(
-              state = swipeableState,
-              dismissContent = {
+        AnimatedVisibility(visible = true) {
+          LazyColumn(
+            modifier = Modifier
+              .padding(16.dp)
+              .clip(Shapes.large)
+              .fillMaxWidth()
+          ) {
+            itemsIndexed(
+              uiState.categories,
+              key = { _, category -> category.name }) { index, category ->
+              SwipeableActionsBox(
+                endActions = listOf(
+                  SwipeAction(
+                    icon = painterResource(R.drawable.delete),
+                    background = Destructive,
+                    onSwipe = { vm.deleteCategory(category) }
+                  ),
+                ),
+                modifier = Modifier.animateItemPlacement()
+              ) {
                 TableRow(modifier = Modifier.background(BackgroundElevated)) {
                   Row(
                     verticalAlignment = Alignment.CenterVertically,
@@ -103,18 +117,16 @@ fun Categories(
                     )
                   }
                 }
-              },
-              background = {
-                Text("WHADDUP")
-              },
-              directions = setOf(DismissDirection.EndToStart)
-            )
-            if (index < uiState.categories.size - 1) {
-              Divider(
-                modifier = Modifier.padding(start = 16.dp),
-                thickness = 1.dp,
-                color = DividerColor
-              )
+              }
+              if (index < uiState.categories.size - 1) {
+                Row(modifier = Modifier.background(BackgroundElevated).height(1.dp)) {
+                  Divider(
+                    modifier = Modifier.padding(start = 16.dp),
+                    thickness = 1.dp,
+                    color = DividerColor
+                  )
+                }
+              }
             }
           }
         }

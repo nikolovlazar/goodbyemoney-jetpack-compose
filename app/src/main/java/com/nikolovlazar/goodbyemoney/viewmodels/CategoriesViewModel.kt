@@ -1,5 +1,6 @@
 package com.nikolovlazar.goodbyemoney.viewmodels
 
+import android.util.Log
 import androidx.compose.ui.graphics.Color
 import androidx.lifecycle.ViewModel
 import com.nikolovlazar.goodbyemoney.models.Category
@@ -73,6 +74,19 @@ class CategoriesViewModel : ViewModel() {
         categories = newCategoriesList,
         newCategoryName = "",
         newCategoryColor = Color.White,
+      )
+    }
+  }
+
+  fun deleteCategory(category: Category) {
+    val index = _uiState.value.categories.indexOf(category)
+    val newList = mutableListOf<Category>()
+    newList.addAll(_uiState.value.categories)
+    newList.removeAt(index)
+
+    _uiState.update { currentState ->
+      currentState.copy(
+        categories = newList
       )
     }
   }
