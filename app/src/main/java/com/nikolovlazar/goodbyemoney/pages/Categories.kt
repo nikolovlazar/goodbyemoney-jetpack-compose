@@ -38,6 +38,8 @@ fun Categories(
 ) {
   val uiState by vm.uiState.collectAsState()
 
+  val swipeableState = rememberDismissState()
+
   val colorPickerController = rememberColorPickerController()
 
   Scaffold(topBar = {
@@ -74,30 +76,39 @@ fun Categories(
             .fillMaxWidth()
         ) {
           itemsIndexed(uiState.categories) { index, category ->
-            TableRow() {
-              Row(
-                verticalAlignment = Alignment.CenterVertically,
-                modifier = Modifier.padding(horizontal = 16.dp)
-              ) {
-                Surface(
-                  color = category.color,
-                  shape = CircleShape,
-                  border = BorderStroke(
-                    width = 2.dp,
-                    color = Color.White
-                  ),
-                  modifier = Modifier.size(16.dp)
-                ) {}
-                Text(
-                  category.name,
-                  modifier = Modifier.padding(
-                    horizontal = 16.dp,
-                    vertical = 10.dp
-                  ),
-                  style = Typography.bodyMedium,
-                )
-              }
-            }
+            SwipeToDismiss(
+              state = swipeableState,
+              dismissContent = {
+                TableRow(modifier = Modifier.background(BackgroundElevated)) {
+                  Row(
+                    verticalAlignment = Alignment.CenterVertically,
+                    modifier = Modifier.padding(horizontal = 16.dp)
+                  ) {
+                    Surface(
+                      color = category.color,
+                      shape = CircleShape,
+                      border = BorderStroke(
+                        width = 2.dp,
+                        color = Color.White
+                      ),
+                      modifier = Modifier.size(16.dp)
+                    ) {}
+                    Text(
+                      category.name,
+                      modifier = Modifier.padding(
+                        horizontal = 16.dp,
+                        vertical = 10.dp
+                      ),
+                      style = Typography.bodyMedium,
+                    )
+                  }
+                }
+              },
+              background = {
+                Text("WHADDUP")
+              },
+              directions = setOf(DismissDirection.EndToStart)
+            )
             if (index < uiState.categories.size - 1) {
               Divider(
                 modifier = Modifier.padding(start = 16.dp),
