@@ -1,6 +1,5 @@
 package com.nikolovlazar.goodbyemoney.viewmodels
 
-import android.util.Log
 import androidx.compose.ui.graphics.Color
 import androidx.lifecycle.ViewModel
 import com.nikolovlazar.goodbyemoney.models.Category

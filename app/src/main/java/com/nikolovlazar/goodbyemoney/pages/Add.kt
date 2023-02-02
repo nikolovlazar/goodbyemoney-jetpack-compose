@@ -11,7 +11,6 @@ import androidx.compose.ui.Alignment
 import androidx.compose.ui.ExperimentalComposeUiApi
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.draw.clip
-import androidx.compose.ui.graphics.Color
 import androidx.compose.ui.text.TextStyle
 import androidx.compose.ui.text.input.KeyboardType
 import androidx.compose.ui.text.style.TextAlign
@@ -26,7 +25,6 @@ import com.nikolovlazar.goodbyemoney.components.UnstyledTextField
 import com.nikolovlazar.goodbyemoney.models.Recurrence
 import com.nikolovlazar.goodbyemoney.ui.theme.*
 import com.nikolovlazar.goodbyemoney.viewmodels.AddViewModel
-import java.time.LocalDate
 
 @OptIn(ExperimentalMaterial3Api::class, ExperimentalComposeUiApi::class)
 @Composable

@@ -171,13 +171,6 @@ fun Categories(
                     vm.setNewCategoryColor(envelope.color)
                   },
                 )
-                BrightnessSlider(
-                  modifier = Modifier
-                    .fillMaxWidth()
-                    .padding(10.dp)
-                    .height(35.dp),
-                  controller = colorPickerController,
-                )
                 TextButton(
                   onClick = vm::hideColorPicker,
                   modifier = Modifier
