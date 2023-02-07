@@ -20,10 +20,7 @@ import androidx.navigation.compose.NavHost
 import androidx.navigation.compose.composable
 import androidx.navigation.compose.currentBackStackEntryAsState
 import androidx.navigation.compose.rememberNavController
-import com.nikolovlazar.goodbyemoney.pages.Add
-import com.nikolovlazar.goodbyemoney.pages.Categories
-import com.nikolovlazar.goodbyemoney.pages.Expenses
-import com.nikolovlazar.goodbyemoney.pages.Settings
+import com.nikolovlazar.goodbyemoney.pages.*
 import com.nikolovlazar.goodbyemoney.ui.theme.GoodbyeMoneyTheme
 import com.nikolovlazar.goodbyemoney.ui.theme.TopAppBarBackground
 
@@ -123,7 +120,7 @@ class MainActivity : ComponentActivity() {
                     .fillMaxSize()
                     .padding(innerPadding),
                 ) {
-                  Greeting("Reports")
+                  Reports()
                 }
               }
               composable("add") {
