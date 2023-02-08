@@ -11,7 +11,10 @@ import androidx.compose.ui.Modifier
 import androidx.compose.ui.res.painterResource
 import androidx.compose.ui.unit.dp
 import androidx.lifecycle.viewmodel.compose.viewModel
+import com.google.accompanist.pager.ExperimentalPagerApi
+import com.google.accompanist.pager.HorizontalPager
 import com.nikolovlazar.goodbyemoney.R
+import com.nikolovlazar.goodbyemoney.components.ReportPage
 import com.nikolovlazar.goodbyemoney.components.charts.MonthlyChart
 import com.nikolovlazar.goodbyemoney.components.charts.WeeklyChart
 import com.nikolovlazar.goodbyemoney.components.charts.YearlyChart
@@ -24,7 +27,7 @@ import com.nikolovlazar.goodbyemoney.ui.theme.Typography
 import com.nikolovlazar.goodbyemoney.viewmodels.ReportsViewModel
 import java.time.LocalDate
 
-@OptIn(ExperimentalMaterial3Api::class)
+@OptIn(ExperimentalMaterial3Api::class, ExperimentalPagerApi::class)
 @Composable
 fun Reports(vm: ReportsViewModel = viewModel()) {
   val uiState = vm.uiState.collectAsState().value
@@ -44,10 +47,15 @@ fun Reports(vm: ReportsViewModel = viewModel()) {
         ),
         actions = {
           IconButton(onClick = vm::openRecurrenceMenu) {
-            Icon(painterResource(id = R.drawable.ic_today), contentDescription = "Change recurrence")
+            Icon(
+              painterResource(id = R.drawable.ic_today),
+              contentDescription = "Change recurrence"
+            )
           }
-          DropdownMenu(expanded = uiState.recurrenceMenuOpened,
-            onDismissRequest = vm::closeRecurrenceMenu) {
+          DropdownMenu(
+            expanded = uiState.recurrenceMenuOpened,
+            onDismissRequest = vm::closeRecurrenceMenu
+          ) {
             recurrences.forEach { recurrence ->
               DropdownMenuItem(text = { Text(recurrence.name) }, onClick = {
                 vm.setRecurrence(recurrence)
@@ -59,62 +67,14 @@ fun Reports(vm: ReportsViewModel = viewModel()) {
       )
     },
     content = { innerPadding ->
-      Column(
-        modifier = Modifier
-          .padding(innerPadding)
-          .padding(horizontal = 16.dp)
-          .padding(top = 16.dp)
-          .fillMaxWidth(),
-        horizontalAlignment = Alignment.CenterHorizontally
-      ) {
-        Row(
-          horizontalArrangement = Arrangement.SpaceBetween,
-          modifier = Modifier.fillMaxWidth()
-        ) {
-          Column {
-            Text("12 Sep - 18 Sep", style = Typography.titleSmall)
-            Row(modifier = Modifier.padding(top = 4.dp)) {
-              Text(
-                "USD",
-                style = Typography.bodyMedium,
-                color = LabelSecondary,
-                modifier = Modifier.padding(end = 4.dp)
-              )
-              Text("85", style = Typography.headlineMedium)
-            }
-          }
-          Column(horizontalAlignment = Alignment.End) {
-            Text("Avg/day", style = Typography.titleSmall)
-            Row(modifier = Modifier.padding(top = 4.dp)) {
-              Text(
-                "USD",
-                style = Typography.bodyMedium,
-                color = LabelSecondary,
-                modifier = Modifier.padding(end = 4.dp)
-              )
-              Text("85", style = Typography.headlineMedium)
-            }
-          }
-        }
-
-        Box(modifier = Modifier
-          .height(180.dp)
-          .padding(vertical = 16.dp)) {
-          when (uiState.recurrence) {
-            Recurrence.Weekly -> WeeklyChart(expenses = mockExpenses)
-            Recurrence.Monthly -> MonthlyChart(expenses = mockExpenses, LocalDate.now())
-            Recurrence.Yearly -> YearlyChart(expenses = mockExpenses)
-            else -> Unit
-          }
-        }
-
-        ExpensesList(
-          expenses = mockExpenses, modifier = Modifier
-            .weight(1f)
-            .verticalScroll(
-              rememberScrollState()
-            )
-        )
+      val numOfPages = when (uiState.recurrence) {
+        Recurrence.Weekly -> 53
+        Recurrence.Monthly -> 12
+        Recurrence.Yearly -> 1
+        else -> 53
+      }
+      HorizontalPager(count = numOfPages, reverseLayout = true) { page ->
+        ReportPage(innerPadding, page, uiState.recurrence)
       }
     }
   )
