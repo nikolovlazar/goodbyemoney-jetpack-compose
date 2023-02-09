@@ -2,23 +2,22 @@ package com.nikolovlazar.goodbyemoney.viewmodels
 
 import androidx.lifecycle.ViewModel
 import androidx.lifecycle.viewModelScope
-import com.nikolovlazar.goodbyemoney.mock.mockExpenses
+import com.nikolovlazar.goodbyemoney.db
 import com.nikolovlazar.goodbyemoney.models.Expense
 import com.nikolovlazar.goodbyemoney.models.Recurrence
 import com.nikolovlazar.goodbyemoney.utils.calculateDateRange
+import io.realm.kotlin.ext.query
 import kotlinx.coroutines.Dispatchers
 import kotlinx.coroutines.flow.MutableStateFlow
 import kotlinx.coroutines.flow.StateFlow
 import kotlinx.coroutines.flow.asStateFlow
 import kotlinx.coroutines.flow.update
 import kotlinx.coroutines.launch
-import java.time.LocalDate
 import java.time.LocalDateTime
 import java.time.LocalTime
-import java.time.YearMonth
 
 data class State(
-  val expenses: List<Expense> = mockExpenses,
+  val expenses: List<Expense> = listOf(),
   val dateStart: LocalDateTime = LocalDateTime.now(),
   val dateEnd: LocalDateTime = LocalDateTime.now(),
   val avgPerDay: Double = 0.0,
@@ -34,7 +33,7 @@ class ReportPageViewModel(private val page: Int, val recurrence: Recurrence) :
     viewModelScope.launch(Dispatchers.IO) {
       val (start, end, daysInRange) = calculateDateRange(recurrence, page)
 
-      val filteredExpenses = mockExpenses.filter { expense ->
+      val filteredExpenses = db.query<Expense>().find().filter { expense ->
         (expense.date.toLocalDate().isAfter(start) && expense.date.toLocalDate()
           .isBefore(end)) || expense.date.toLocalDate()
           .isEqual(start) || expense.date.toLocalDate().isEqual(end)

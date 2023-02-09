@@ -15,7 +15,6 @@ import androidx.navigation.NavController
 import androidx.navigation.compose.rememberNavController
 import com.nikolovlazar.goodbyemoney.components.PickerTrigger
 import com.nikolovlazar.goodbyemoney.components.expensesList.ExpensesList
-import com.nikolovlazar.goodbyemoney.mock.mockExpenses
 import com.nikolovlazar.goodbyemoney.models.Recurrence
 import com.nikolovlazar.goodbyemoney.ui.theme.GoodbyeMoneyTheme
 import com.nikolovlazar.goodbyemoney.ui.theme.LabelSecondary

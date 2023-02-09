@@ -19,7 +19,7 @@ fun ExpenseRow(expense: Expense, modifier: Modifier = Modifier) {
       horizontalArrangement = Arrangement.SpaceBetween
     ) {
       Text(
-        expense.note ?: expense.category.name,
+        expense.note ?: expense.category!!.name,
         style = Typography.headlineMedium
       )
       Text(
@@ -33,7 +33,7 @@ fun ExpenseRow(expense: Expense, modifier: Modifier = Modifier) {
         .padding(top = 6.dp),
       horizontalArrangement = Arrangement.SpaceBetween
     ) {
-      CategoryBadge(category = expense.category)
+      CategoryBadge(category = expense.category!!)
       Text(
         expense.date.format(DateTimeFormatter.ofPattern("HH:mm")),
         style = Typography.bodyMedium,

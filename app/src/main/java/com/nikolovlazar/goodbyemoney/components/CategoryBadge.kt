@@ -1,6 +1,5 @@
 package com.nikolovlazar.goodbyemoney.components
 
-import android.graphics.Color
 import androidx.compose.foundation.layout.padding
 import androidx.compose.material3.Surface
 import androidx.compose.material3.Text

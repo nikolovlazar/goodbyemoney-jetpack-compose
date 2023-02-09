@@ -1,16 +1,39 @@
 package com.nikolovlazar.goodbyemoney.models
 
+import io.realm.kotlin.types.ObjectId
+import io.realm.kotlin.types.RealmObject
+import io.realm.kotlin.types.annotations.PrimaryKey
 import java.time.LocalDate
 import java.time.LocalDateTime
 
-data class Expense(
-  val id: Int,
-  val amount: Double,
-  val recurrence: Recurrence,
-  val date: LocalDateTime,
-  val note: String?,
-  val category: Category,
-)
+class Expense(): RealmObject {
+  @PrimaryKey
+  var _id: ObjectId = ObjectId.create()
+  var amount: Double = 0.0
+
+  private var _recurrenceName: String = "None"
+  val recurrence: Recurrence get() { return _recurrenceName.toRecurrence() }
+
+  private var _dateValue: String = LocalDateTime.now().toString()
+  val date: LocalDateTime get() { return LocalDateTime.parse(_dateValue) }
+
+  var note: String = ""
+  var category: Category? = null
+
+  constructor(
+    amount: Double,
+    recurrence: Recurrence,
+    date: LocalDateTime,
+    note: String,
+    category: Category,
+  ) : this() {
+    this.amount = amount
+    this._recurrenceName = recurrence.name
+    this._dateValue = date.toString()
+    this.note = note
+    this.category = category
+  }
+}
 
 data class DayExpenses(
   val expenses: MutableList<Expense>,

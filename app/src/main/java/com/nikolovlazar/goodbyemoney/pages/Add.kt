@@ -2,6 +2,7 @@ package com.nikolovlazar.goodbyemoney.pages
 
 import android.content.res.Configuration.UI_MODE_NIGHT_YES
 import androidx.compose.foundation.background
+import androidx.compose.foundation.clickable
 import androidx.compose.foundation.layout.*
 import androidx.compose.foundation.shape.CircleShape
 import androidx.compose.foundation.text.KeyboardOptions
@@ -11,6 +12,7 @@ import androidx.compose.ui.Alignment
 import androidx.compose.ui.ExperimentalComposeUiApi
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.draw.clip
+import androidx.compose.ui.graphics.Color
 import androidx.compose.ui.text.TextStyle
 import androidx.compose.ui.text.input.KeyboardType
 import androidx.compose.ui.text.style.TextAlign
@@ -38,7 +40,6 @@ fun Add(navController: NavController, vm: AddViewModel = viewModel()) {
     Recurrence.Monthly,
     Recurrence.Yearly
   )
-  val categories = listOf("Groceries", "Bills", "Hobbies", "Take out")
 
   Scaffold(topBar = {
     MediumTopAppBar(
@@ -150,21 +151,22 @@ fun Add(navController: NavController, vm: AddViewModel = viewModel()) {
           TextButton(
             onClick = { categoriesMenuOpened = true }, shape = Shapes.large
           ) {
-            // TODO: Change the color of the text based on the selected category
-            Text(state.category ?: "Select a category first")
+            Text(
+              state.category?.name ?: "Select a category first",
+              color = state.category?.color ?: Color.White
+            )
             DropdownMenu(expanded = categoriesMenuOpened,
               onDismissRequest = { categoriesMenuOpened = false }) {
-              categories.forEach { category ->
+              state.categories?.forEach { category ->
                 DropdownMenuItem(text = {
                   Row(verticalAlignment = Alignment.CenterVertically) {
-                    // TODO: change the color based on the category
                     Surface(
                       modifier = Modifier.size(10.dp),
                       shape = CircleShape,
-                      color = Primary
+                      color = category.color
                     ) {}
                     Text(
-                      category, modifier = Modifier.padding(start = 8.dp)
+                      category.name, modifier = Modifier.padding(start = 8.dp)
                     )
                   }
                 }, onClick = {
@@ -179,7 +181,8 @@ fun Add(navController: NavController, vm: AddViewModel = viewModel()) {
       Button(
         onClick = vm::submitExpense,
         modifier = Modifier.padding(16.dp),
-        shape = Shapes.large
+        shape = Shapes.large,
+        enabled = state.category != null
       ) {
         Text("Submit expense")
       }

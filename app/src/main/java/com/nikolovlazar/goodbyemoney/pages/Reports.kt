@@ -1,31 +1,17 @@
 package com.nikolovlazar.goodbyemoney.pages
 
-import androidx.compose.foundation.layout.*
-import androidx.compose.foundation.rememberScrollState
-import androidx.compose.foundation.verticalScroll
 import androidx.compose.material3.*
 import androidx.compose.runtime.Composable
 import androidx.compose.runtime.collectAsState
-import androidx.compose.ui.Alignment
-import androidx.compose.ui.Modifier
 import androidx.compose.ui.res.painterResource
-import androidx.compose.ui.unit.dp
 import androidx.lifecycle.viewmodel.compose.viewModel
 import com.google.accompanist.pager.ExperimentalPagerApi
 import com.google.accompanist.pager.HorizontalPager
 import com.nikolovlazar.goodbyemoney.R
 import com.nikolovlazar.goodbyemoney.components.ReportPage
-import com.nikolovlazar.goodbyemoney.components.charts.MonthlyChart
-import com.nikolovlazar.goodbyemoney.components.charts.WeeklyChart
-import com.nikolovlazar.goodbyemoney.components.charts.YearlyChart
-import com.nikolovlazar.goodbyemoney.components.expensesList.ExpensesList
-import com.nikolovlazar.goodbyemoney.mock.mockExpenses
 import com.nikolovlazar.goodbyemoney.models.Recurrence
-import com.nikolovlazar.goodbyemoney.ui.theme.LabelSecondary
 import com.nikolovlazar.goodbyemoney.ui.theme.TopAppBarBackground
-import com.nikolovlazar.goodbyemoney.ui.theme.Typography
 import com.nikolovlazar.goodbyemoney.viewmodels.ReportsViewModel
-import java.time.LocalDate
 
 @OptIn(ExperimentalMaterial3Api::class, ExperimentalPagerApi::class)
 @Composable
