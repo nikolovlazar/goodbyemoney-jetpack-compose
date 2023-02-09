@@ -22,6 +22,14 @@
                 <category android:name="android.intent.category.LAUNCHER" />
             </intent-filter>
         </activity>
+
+        <meta-data android:name="io.sentry.dsn" android:value="https://f1047aa85efc4b71bdf3b287ae802a65@o1418292.ingest.sentry.io/4504651272028160" />
+        <meta-data android:name="io.sentry.debug" android:value="true" />
+        <meta-data android:name="io.sentry.attach-screenshot" android:value="true" />
+        <meta-data android:name="io.sentry.traces.sample-rate" android:value="1.0" />
+        <meta-data android:name="io.sentry.traces.profiling.sample-rate" android:value="1.0" />
+        <meta-data android:name="io.sentry.traces.user-interaction.enable" android:value="true" />
+        <meta-data android:name="io.sentry.breadcrumbs.user-interaction" android:value="true" />
     </application>
 
 </manifest>
