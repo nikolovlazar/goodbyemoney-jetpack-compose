@@ -22,6 +22,7 @@ import com.nikolovlazar.goodbyemoney.ui.theme.LabelSecondary
 import com.nikolovlazar.goodbyemoney.ui.theme.TopAppBarBackground
 import com.nikolovlazar.goodbyemoney.ui.theme.Typography
 import com.nikolovlazar.goodbyemoney.viewmodels.ExpensesViewModel
+import java.text.DecimalFormat
 
 @OptIn(ExperimentalMaterial3Api::class)
 @Composable
@@ -86,10 +87,13 @@ fun Expenses(
             color = LabelSecondary,
             modifier = Modifier.padding(end = 4.dp, top = 4.dp)
           )
-          Text("${state.sumTotal}", style = Typography.titleLarge)
+          Text(
+            DecimalFormat("0.#").format(state.sumTotal),
+            style = Typography.titleLarge
+          )
         }
         ExpensesList(
-          expenses = mockExpenses,
+          expenses = state.expenses,
           modifier = Modifier
             .weight(1f)
             .verticalScroll(

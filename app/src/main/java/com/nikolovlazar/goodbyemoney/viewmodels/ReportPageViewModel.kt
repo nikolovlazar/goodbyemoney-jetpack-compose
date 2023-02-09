@@ -5,6 +5,7 @@ import androidx.lifecycle.viewModelScope
 import com.nikolovlazar.goodbyemoney.mock.mockExpenses
 import com.nikolovlazar.goodbyemoney.models.Expense
 import com.nikolovlazar.goodbyemoney.models.Recurrence
+import com.nikolovlazar.goodbyemoney.utils.calculateDateRange
 import kotlinx.coroutines.Dispatchers
 import kotlinx.coroutines.flow.MutableStateFlow
 import kotlinx.coroutines.flow.StateFlow
@@ -29,37 +30,9 @@ class ReportPageViewModel(private val page: Int, val recurrence: Recurrence) :
   private val _uiState = MutableStateFlow(State())
   val uiState: StateFlow<State> = _uiState.asStateFlow()
 
-  private lateinit var start: LocalDate
-  private lateinit var end: LocalDate
-  private var daysInRange = 1
-
   init {
     viewModelScope.launch(Dispatchers.IO) {
-      val today = LocalDate.now()
-      when (recurrence) {
-        Recurrence.Weekly -> {
-          start =
-            LocalDate.now().minusDays(today.dayOfWeek.value.toLong() - 1)
-              .minusDays((page * 7).toLong())
-          end = start.plusDays(6)
-          daysInRange = 7
-        }
-        Recurrence.Monthly -> {
-          start =
-            LocalDate.of(today.year, today.month, 1)
-              .minusMonths(page.toLong())
-          val numberOfDays =
-            YearMonth.of(start.year, start.month).lengthOfMonth()
-          end = start.plusDays(numberOfDays.toLong())
-          daysInRange = numberOfDays
-        }
-        Recurrence.Yearly -> {
-          start = LocalDate.of(today.year, 1, 1)
-          end = LocalDate.of(today.year, 12, 31)
-          daysInRange = 365
-        }
-        else -> Unit
-      }
+      val (start, end, daysInRange) = calculateDateRange(recurrence, page)
 
       val filteredExpenses = mockExpenses.filter { expense ->
         (expense.date.toLocalDate().isAfter(start) && expense.date.toLocalDate()
