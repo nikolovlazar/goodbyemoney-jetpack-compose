@@ -71,7 +71,7 @@ fun Settings(navController: NavController) {
             modifier = Modifier.clickable {
               navController.navigate("settings/categories")
             })
-          Divider(
+          HorizontalDivider(
             modifier = Modifier
               .padding(start = 16.dp), thickness = 1.dp, color = DividerColor
           )

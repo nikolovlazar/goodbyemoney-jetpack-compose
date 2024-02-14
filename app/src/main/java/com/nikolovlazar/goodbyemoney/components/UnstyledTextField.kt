@@ -26,28 +26,31 @@ fun UnstyledTextField(
   enabled: Boolean = true,
   readOnly: Boolean = false,
   textStyle: TextStyle = LocalTextStyle.current,
-  label: @Composable (() -> Unit)? = null,
-  placeholder: @Composable (() -> Unit)? = null,
-  arrangement: Arrangement.Horizontal = Arrangement.Start,
-  leadingIcon: @Composable (() -> Unit)? = null,
-  trailingIcon: @Composable (() -> Unit)? = null,
-  supportingText: @Composable (() -> Unit)? = null,
+  label: @Composable() (() -> Unit)? = null,
+  placeholder: @Composable() (() -> Unit)? = null,
+  leadingIcon: @Composable() (() -> Unit)? = null,
+  trailingIcon: @Composable() (() -> Unit)? = null,
+  prefix: @Composable() (() -> Unit)? = null,
+  suffix: @Composable() (() -> Unit)? = null,
+  supportingText: @Composable() (() -> Unit)? = null,
   isError: Boolean = false,
   visualTransformation: VisualTransformation = VisualTransformation.None,
   keyboardOptions: KeyboardOptions = KeyboardOptions.Default,
   keyboardActions: KeyboardActions = KeyboardActions.Default,
   singleLine: Boolean = false,
-  maxLines: Int = Int.MAX_VALUE,
+  maxLines: Int = if (singleLine) 1 else Int.MAX_VALUE,
+  minLines: Int = 1,
   interactionSource: MutableInteractionSource = remember { MutableInteractionSource() },
-  shape: Shape = TextFieldDefaults.filledShape,
-  colors: TextFieldColors = TextFieldDefaults.textFieldColors()
-) {
-  // If color is not provided via the text style, use content color as a default
-  val textColor = TextPrimary
-  val mergedTextStyle =
-    textStyle.merge(TextStyle(color = textColor))
+  shape: Shape = TextFieldDefaults.shape,
+  arrangement: Arrangement.Horizontal = Arrangement.Start
 
-  BasicTextField(value = value,
+) {
+  val textColor = TextPrimary
+  val mergedTextStyle = textStyle.merge(TextStyle(color = textColor))
+
+  BasicTextField(
+    value = value,
+    modifier = modifier,
     onValueChange = onValueChange,
     enabled = enabled,
     readOnly = readOnly,
@@ -59,38 +62,40 @@ fun UnstyledTextField(
     interactionSource = interactionSource,
     singleLine = singleLine,
     maxLines = maxLines,
+    minLines = minLines,
     decorationBox = @Composable { innerTextField ->
-      TextFieldDefaults.TextFieldDecorationBox(
+      TextFieldDefaults.DecorationBox(
         value = value,
-        visualTransformation = visualTransformation,
         innerTextField = innerTextField,
+        enabled = enabled,
+        singleLine = singleLine,
+        visualTransformation = visualTransformation,
+        interactionSource = interactionSource,
+        isError = isError,
+        label = label,
         placeholder = {
-          Row(
-            modifier = Modifier.fillMaxWidth(),
-            horizontalArrangement = arrangement,
-            verticalAlignment = CenterVertically
-          ) {
+          Row( modifier = Modifier.fillMaxWidth(), horizontalArrangement = arrangement){
             placeholder?.invoke()
           }
         },
-        label = label,
         leadingIcon = leadingIcon,
         trailingIcon = trailingIcon,
+        prefix = prefix,
+        suffix = suffix,
         supportingText = supportingText,
         shape = shape,
-        singleLine = singleLine,
-        enabled = enabled,
-        isError = isError,
-        interactionSource = interactionSource,
-        contentPadding = PaddingValues(horizontal = 16.dp),
-        colors = TextFieldDefaults.textFieldColors(
-          containerColor = Color.Transparent,
-          textColor = TextPrimary,
-          cursorColor = Primary,
-          focusedIndicatorColor = Color.Transparent,
+        contentPadding = PaddingValues(horizontal = 16.dp, vertical = 0.dp),
+        colors = TextFieldDefaults.colors(
           unfocusedIndicatorColor = Color.Transparent,
+          focusedIndicatorColor = Color.Transparent,
           disabledIndicatorColor = Color.Transparent,
-        ),
+          cursorColor = Primary,
+          focusedContainerColor = Color.Transparent,
+          unfocusedContainerColor = Color.Transparent
+        )
       )
-    })
+    }
+
+
+  )
 }

@@ -76,7 +76,7 @@ fun Add(navController: NavController, vm: AddViewModel = viewModel()) {
             )
           )
         })
-        Divider(
+        HorizontalDivider(
           modifier = Modifier.padding(start = 16.dp),
           thickness = 1.dp,
           color = DividerColor
@@ -100,7 +100,7 @@ fun Add(navController: NavController, vm: AddViewModel = viewModel()) {
             }
           }
         })
-        Divider(
+        HorizontalDivider(
           modifier = Modifier.padding(start = 16.dp),
           thickness = 1.dp,
           color = DividerColor
@@ -122,7 +122,7 @@ fun Add(navController: NavController, vm: AddViewModel = viewModel()) {
               title = { Text("Select date", style = Typography.titleLarge) })
           }
         })
-        Divider(
+        HorizontalDivider(
           modifier = Modifier.padding(start = 16.dp),
           thickness = 1.dp,
           color = DividerColor
@@ -139,7 +139,7 @@ fun Add(navController: NavController, vm: AddViewModel = viewModel()) {
             ),
           )
         })
-        Divider(
+        HorizontalDivider(
           modifier = Modifier.padding(start = 16.dp),
           thickness = 1.dp,
           color = DividerColor
